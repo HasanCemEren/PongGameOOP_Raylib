@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-// Oyun durumlar�
+// Oyun durumlarэ
 enum class GameStateEnum {
     MAIN_MENU,
     PLAYING,

@@ -1,4 +1,4 @@
-#include "MainMenu.h"
+ï»¿#include "MainMenu.h"
 #include <raylib.h>
 
 MainMenu::MainMenu() {
@@ -26,19 +26,19 @@ void MainMenu::Draw() const {
     // Arka plan
     ClearBackground(DARKGREEN);
 
-    // Baþlýk
+    // BaÑŽlÑk
     const char* title = "OOP PONG";
     int titleSize = 80;
     int titleWidth = MeasureText(title, titleSize);
     DrawText(title, (screenWidth - titleWidth) / 2, screenHeight / 4, titleSize, YELLOW);
 
-    // Alt baþlýk
+    // Alt baÑŽlÑk
     const char* subtitle = "Made with Raylib & C++";
     int subtitleSize = 20;
     int subtitleWidth = MeasureText(subtitle, subtitleSize);
     DrawText(subtitle, (screenWidth - subtitleWidth) / 2, screenHeight / 4 + 100, subtitleSize, LIGHTGRAY);
 
-    // Menü seçenekleri
+    // MenÑŒ seÐ·enekleri
     const char* options[] = {
         "Start Game",
         "Settings",
@@ -55,7 +55,7 @@ void MainMenu::Draw() const {
         int x = (screenWidth - optionWidth) / 2;
         int y = startY + i * spacing;
 
-        // Seçili olanýn yanýna ok koy
+        // SeÐ·ili olanÑn yanÑna ok koy
         if (i == selectedOption) {
             DrawText(">", x - 50, y, optionSize, YELLOW);
             DrawText("<", x + optionWidth + 20, y, optionSize, YELLOW);

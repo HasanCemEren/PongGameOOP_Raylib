@@ -1,8 +1,10 @@
-#pragma once
+﻿#pragma once
 #include "Ball.h"
 #include "Paddle.h"
 #include "ScoreBoard.h"
 #include "MainMenu.h"
+#include "PowerUp.h"
+#include <vector>
 
 enum class GameStateEnum {
     MAIN_MENU,
@@ -20,9 +22,21 @@ private:
     MainMenu mainMenu;
     GameStateEnum currentState;
 
+    // Power-up sistemi
+    std::vector<PowerUp> powerUps;
+    float powerUpSpawnTimer;
+    static const float POWER_UP_SPAWN_INTERVAL;
+
     void HandleMainMenu();
     void HandleGameplay();
     void ResetGame();
+
+    // Power-up fonksiyonlarý
+    void UpdatePowerUps();
+    void SpawnRandomPowerUp();
+    void CheckPowerUpCollisions();
+    void ApplyPowerUpToPlayer(PowerUpType type, bool isPlayer1);
+    void DrawPowerUpInfo() const;
 
 public:
     Game();

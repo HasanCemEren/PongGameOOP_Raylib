@@ -1,10 +1,19 @@
-#include "Game.h"
+Ôªø#include "Game.h"
 #include <raylib.h>
+#include <cstdlib>
+#include <ctime>
+
+const float Game::POWER_UP_SPAWN_INTERVAL = 8.0f; // 8 saniyede bir power-up spawn
 
 Game::Game()
     : player(GetScreenWidth() - 35, GetScreenHeight() / 2 - 60),
     cpu(10, GetScreenHeight() / 2 - 60, &ball),
-    currentState(GameStateEnum::MAIN_MENU) {}
+    currentState(GameStateEnum::MAIN_MENU),
+    powerUpSpawnTimer(0.0f) {
+
+    // Random seed
+    srand(time(NULL));
+}
 
 void Game::Run() {
     while (!WindowShouldClose()) {
@@ -20,11 +29,11 @@ void Game::Run() {
             break;
 
         case GameStateEnum::PAUSED:
-            // TODO: Pause men¸s¸
+            // TODO: Pause men—ås—å
             break;
 
         case GameStateEnum::GAME_OVER:
-            // TODO: Game Over ekran˝
+            // TODO: Game Over ekran—ç
             break;
         }
 
@@ -36,7 +45,6 @@ void Game::HandleMainMenu() {
     mainMenu.Update();
     mainMenu.Draw();
 
-    // ENTER tu˛una bas˝l˝nca seÁenei i˛le
     if (IsKeyPressed(KEY_ENTER)) {
         int selected = mainMenu.GetSelectedOption();
 
@@ -47,19 +55,18 @@ void Game::HandleMainMenu() {
             break;
 
         case 1: // Settings
-            // TODO: Settings men¸s¸
+            // TODO: Settings men—ås—å
             break;
 
         case 2: // Quit
-            // Oyunu kapat - main loop'tan Á˝k
-            // Bu durumda WindowShouldClose() true dˆnd¸recek
+            // Oyunu kapat
             break;
         }
     }
 }
 
 void Game::HandleGameplay() {
-    // ESC tu˛u ile ana men¸ye dˆn
+    // ESC tu—éu ile ana men—åye d—Ün
     if (IsKeyPressed(KEY_ESCAPE)) {
         currentState = GameStateEnum::MAIN_MENU;
         return;
@@ -69,31 +76,199 @@ void Game::HandleGameplay() {
     ball.Update();
     player.Update();
     cpu.Update();
+    UpdatePowerUps();
 
     // Collision Detection
     if (CheckCollisionCircleRec({ ball.GetX(), ball.GetY() }, ball.GetRadius(),
         { player.GetX(), player.GetY(), player.GetWidth(), player.GetHeight() })) {
+
+        // Kalkan kontrol—å
+        if (player.HasShield()) {
+            player.UseShield();
+        }
         ball.ReverseSpeedX();
     }
 
     if (CheckCollisionCircleRec({ ball.GetX(), ball.GetY() }, ball.GetRadius(),
         { cpu.GetX(), cpu.GetY(), cpu.GetWidth(), cpu.GetHeight() })) {
+
+        // Kalkan kontrol—å
+        if (cpu.HasShield()) {
+            cpu.UseShield();
+        }
         ball.ReverseSpeedX();
     }
+
+    // Power-up –∑arp—ç—éma kontrol—å
+    CheckPowerUpCollisions();
 
     // Draw
     ClearBackground(DARKGREEN);
     DrawLine(GetScreenWidth() / 2, 0, GetScreenWidth() / 2, GetScreenHeight(), WHITE);
+
+    // Power-up'lar—ç –∑iz
+    for (const auto& powerUp : powerUps) {
+        if (powerUp.IsActive()) {
+            powerUp.Draw();
+        }
+    }
+
     ball.Draw();
     player.Draw();
     cpu.Draw();
     scoreboard.Draw();
 
-    // ESC tu˛u bilgisi
+    // Power-up bilgilerini –∑iz
+    DrawPowerUpInfo();
+
+    // Kontrol bilgileri
     DrawText("ESC - Main Menu", 10, 10, 20, LIGHTGRAY);
+    DrawText("Fashion Power-Ups Active!", GetScreenWidth() / 2 - 100, 10, 20, YELLOW);
+}
+
+void Game::UpdatePowerUps() {
+    // Power-up spawn timer
+    powerUpSpawnTimer += GetFrameTime();
+    if (powerUpSpawnTimer >= POWER_UP_SPAWN_INTERVAL) {
+        SpawnRandomPowerUp();
+        powerUpSpawnTimer = 0.0f;
+    }
+
+    // Power-up'lar—ç g—åncelle ve s—åresi dolmu—é olanlar—ç temizle
+    for (auto it = powerUps.begin(); it != powerUps.end();) {
+        if (it->IsActive()) {
+            it->Update();
+            ++it;
+        }
+        else {
+            it = powerUps.erase(it);
+        }
+    }
+}
+
+void Game::SpawnRandomPowerUp() {
+    // Ekran—çn ortas—çnda bir alanda spawn et
+    float minX = GetScreenWidth() * 0.3f;
+    float maxX = GetScreenWidth() * 0.7f;
+    float minY = GetScreenHeight() * 0.2f;
+    float maxY = GetScreenHeight() * 0.8f;
+
+    float x = minX + (rand() % (int)(maxX - minX));
+    float y = minY + (rand() % (int)(maxY - minY));
+
+    PowerUpType type = static_cast<PowerUpType>(rand() % 6);
+
+    powerUps.emplace_back(x, y, type);
+}
+
+void Game::CheckPowerUpCollisions() {
+    Rectangle ballRect = {
+        ball.GetX() - ball.GetRadius(),
+        ball.GetY() - ball.GetRadius(),
+        ball.GetRadius() * 2.0f,
+        ball.GetRadius() * 2.0f
+    };
+
+    for (auto& powerUp : powerUps) {
+        if (powerUp.IsActive() && CheckCollisionRecs(ballRect, powerUp.GetBounds())) {
+            // En yak—çn oyuncuya power-up ver
+            float distToPlayer = abs(ball.GetX() - (player.GetX() + player.GetWidth() / 2));
+            float distToCpu = abs(ball.GetX() - (cpu.GetX() + cpu.GetWidth() / 2));
+
+            bool isPlayerCloser = distToPlayer < distToCpu;
+            ApplyPowerUpToPlayer(powerUp.GetType(), isPlayerCloser);
+
+            powerUp.Deactivate();
+            break;
+        }
+    }
+}
+
+void Game::ApplyPowerUpToPlayer(PowerUpType type, bool isPlayer1) {
+    switch (type) {
+    case PowerUpType::SHOE:
+        // Top h—çzlan—çr (global efekt)
+        ball.ApplySpeedBoost();
+        break;
+
+    case PowerUpType::JACKET:
+        // Paddle uzar
+        if (isPlayer1) {
+            player.ApplyPowerUp(type);
+        }
+        else {
+            cpu.ApplyPowerUp(type);
+        }
+        break;
+
+    case PowerUpType::DRESS:
+        // Paddle h—çzlan—çr
+        if (isPlayer1) {
+            player.ApplyPowerUp(type);
+        }
+        else {
+            cpu.ApplyPowerUp(type);
+        }
+        break;
+
+    case PowerUpType::NECKLACE:
+        // Top b—åy—år (global efekt)
+        ball.ApplySizeBoost();
+        break;
+
+    case PowerUpType::HAT:
+        // Kalkan
+        if (isPlayer1) {
+            player.ApplyPowerUp(type);
+        }
+        else {
+            cpu.ApplyPowerUp(type);
+        }
+        break;
+
+    case PowerUpType::BAG:
+        // Double points - ScoreBoard s—çn—çf—çnda implement edilmeli
+        if (isPlayer1) {
+            player.ApplyPowerUp(type);
+        }
+        else {
+            cpu.ApplyPowerUp(type);
+        }
+        break;
+    }
+}
+
+void Game::DrawPowerUpInfo() const {
+    // Power-up legend
+    int legendY = GetScreenHeight() - 120;
+    DrawText("FASHION POWER-UPS:", 10, legendY, 16, WHITE);
+
+    const char* powerUpDescriptions[] = {
+        "Shoe: Ball Speed+",
+        "Jacket: Paddle Size+",
+        "Dress: Paddle Speed+",
+        "Necklace: Ball Size+",
+        "Hat: Shield",
+        "Bag: Double Points"
+    };
+
+    for (int i = 0; i < 6; i++) {
+        DrawText(powerUpDescriptions[i], 10, legendY + 20 + i * 15, 12, LIGHTGRAY);
+    }
+
+    // Aktif power-up say—çs—ç
+    int activePowerUps = 0;
+    for (const auto& powerUp : powerUps) {
+        if (powerUp.IsActive()) activePowerUps++;
+    }
+
+    DrawText(TextFormat("Active Power-Ups: %d", activePowerUps),
+        GetScreenWidth() - 200, legendY, 16, YELLOW);
 }
 
 void Game::ResetGame() {
     ball.Reset();
-    // Skorlar˝ s˝f˝rlamak isterseniz Score namespace'ini g¸ncelleyin
+    powerUps.clear();
+    powerUpSpawnTimer = 0.0f;
+    // Skorlar—ç s—çf—çrlamak isterseniz GameState namespace'ini g—åncelleyin
 }

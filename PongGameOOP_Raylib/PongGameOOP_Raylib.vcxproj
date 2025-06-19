@@ -134,6 +134,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Paddle.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +146,7 @@
     <ClInclude Include="IUpdatable.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Paddle.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="ScoreBoard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

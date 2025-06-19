@@ -1,20 +1,37 @@
-#pragma once
+ï»¿#pragma once
 #include "Entity.h"
+#include "PowerUp.h"
 
-// Forward declaration - Ball sýnýfýný önceden tanýmlýyoruz
 class Ball;
 
 class Paddle : public Entity {
 protected:
     float width, height;
     int speed;
+
+    // Power-up Ã¶zellikleri
+    float originalHeight;
+    float originalSpeed;
+    float powerUpTimer;
+    PowerUpType activePowerUp;
+    bool hasPowerUp;
+    bool hasShield;
+
     void LimitMovement();
+
 public:
     Paddle(float x, float y);
     void Draw() const override;
     virtual void Update() override = 0;
     float GetWidth() const;
     float GetHeight() const;
+
+    // Power-up fonksiyonlarÃ½
+    void ApplyPowerUp(PowerUpType type);
+    void UpdatePowerUp();
+    bool HasShield() const;
+    void UseShield();
+    Color GetPaddleColor() const;
 };
 
 class PlayerPaddle : public Paddle {
@@ -25,7 +42,7 @@ public:
 
 class CpuPaddle : public Paddle {
 private:
-    const Ball* ball;  // Artýk Ball forward declaration sayesinde tanýnýyor
+    const Ball* ball;
 public:
     CpuPaddle(float x, float y, const Ball* ballRef);
     void Update() override;

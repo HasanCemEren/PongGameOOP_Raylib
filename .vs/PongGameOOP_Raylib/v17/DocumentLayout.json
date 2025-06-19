@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{92701FD3-FC40-41C0-8A84-A8745EF20426}|PongGameOOP_Raylib\\PongGameOOP_Raylib.vcxproj|C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\PongGameOOP_Raylib\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{92701FD3-FC40-41C0-8A84-A8745EF20426}|PongGameOOP_Raylib\\PongGameOOP_Raylib.vcxproj|solutionrelative:PongGameOOP_Raylib\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{92701FD3-FC40-41C0-8A84-A8745EF20426}|PongGameOOP_Raylib\\PongGameOOP_Raylib.vcxproj|C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\PongGameOOP_Raylib\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{92701FD3-FC40-41C0-8A84-A8745EF20426}|PongGameOOP_Raylib\\PongGameOOP_Raylib.vcxproj|solutionrelative:PongGameOOP_Raylib\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{92701FD3-FC40-41C0-8A84-A8745EF20426}|PongGameOOP_Raylib\\PongGameOOP_Raylib.vcxproj|C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\PongGameOOP_Raylib\\GameState.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{92701FD3-FC40-41C0-8A84-A8745EF20426}|PongGameOOP_Raylib\\PongGameOOP_Raylib.vcxproj|solutionrelative:PongGameOOP_Raylib\\GameState.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{92701FD3-FC40-41C0-8A84-A8745EF20426}|PongGameOOP_Raylib\\PongGameOOP_Raylib.vcxproj|C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\PongGameOOP_Raylib\\PowerUp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{92701FD3-FC40-41C0-8A84-A8745EF20426}|PongGameOOP_Raylib\\PongGameOOP_Raylib.vcxproj|solutionrelative:PongGameOOP_Raylib\\PowerUp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,41 +22,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Game.h",
-              "DocumentMoniker": "C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\PongGameOOP_Raylib\\Game.h",
-              "RelativeDocumentMoniker": "PongGameOOP_Raylib\\Game.h",
-              "ToolTip": "C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\PongGameOOP_Raylib\\Game.h",
-              "RelativeToolTip": "PongGameOOP_Raylib\\Game.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB0AAAACAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-18T17:32:23.839Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "GameState.h",
-              "DocumentMoniker": "C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\PongGameOOP_Raylib\\GameState.h",
-              "RelativeDocumentMoniker": "PongGameOOP_Raylib\\GameState.h",
-              "ToolTip": "C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\PongGameOOP_Raylib\\GameState.h",
-              "RelativeToolTip": "PongGameOOP_Raylib\\GameState.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-18T17:32:16.042Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Game.cpp",
-              "DocumentMoniker": "C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\PongGameOOP_Raylib\\Game.cpp",
-              "RelativeDocumentMoniker": "PongGameOOP_Raylib\\Game.cpp",
-              "ToolTip": "C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\PongGameOOP_Raylib\\Game.cpp",
-              "RelativeToolTip": "PongGameOOP_Raylib\\Game.cpp",
-              "ViewState": "AQIAAEQAAAAAAAAAAAAAAGEAAABFAAAA",
+              "Title": "PowerUp.cpp",
+              "DocumentMoniker": "C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\PongGameOOP_Raylib\\PowerUp.cpp",
+              "RelativeDocumentMoniker": "PongGameOOP_Raylib\\PowerUp.cpp",
+              "ToolTip": "C:\\Users\\cemer\\source\\repos\\PongGameOOP_Raylib\\PongGameOOP_Raylib\\PowerUp.cpp",
+              "RelativeToolTip": "PongGameOOP_Raylib\\PowerUp.cpp",
+              "ViewState": "AQIAAEwAAAAAAAAAAAAYwFUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-18T17:30:17.282Z",
+              "WhenOpened": "2025-06-19T12:37:27.267Z",
               "EditorCaption": ""
             }
           ]
