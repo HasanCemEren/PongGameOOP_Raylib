@@ -1,23 +1,12 @@
-#include <raylib.h>
 #include "Game.h"
+#include <raylib.h>
 
 int main() {
-    const int screenWidth = 1280;
-    const int screenHeight = 800;
-
-    InitWindow(screenWidth, screenHeight, "Pong Game");
+    InitWindow(1280, 800, "OOP Pong");
     SetTargetFPS(144);
 
     Game game;
-    game.Init(screenWidth, screenHeight);
-
-    while (!WindowShouldClose()) {
-        game.Update();
-
-        BeginDrawing();
-        game.Draw(screenWidth, screenHeight);
-        EndDrawing();
-    }
+    game.Run();
 
     CloseWindow();
     return 0;

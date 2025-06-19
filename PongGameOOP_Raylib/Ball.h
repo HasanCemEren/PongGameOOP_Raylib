@@ -1,13 +1,15 @@
 #pragma once
-#include <raylib.h>
+#include "Entity.h"
 
-class Ball {
-public:
-    float x, y;
-    int speedX, speedY;
+class Ball : public Entity {
+private:
     int radius;
-
-    void Draw();
-    void Update();
-    void ResetBall();
+    int speedX, speedY;
+public:
+    Ball();
+    void Update() override;
+    void Draw() const override;
+    void Reset();
+    void ReverseSpeedX(); // Yeni fonksiyon - paddle collision için
+    int GetRadius() const;
 };

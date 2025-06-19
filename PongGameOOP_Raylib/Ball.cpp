@@ -1,38 +1,57 @@
 #include "Ball.h"
-#include "Game.h" // playerScore, cpuScore
+#include "GameState.h"
 #include <raylib.h>
 
-extern int playerScore;
-extern int cpuScore;
-
-void Ball::Draw() {
-    DrawCircle(x, y, radius, YELLOW);
+Ball::Ball() {
+    radius = 20;
+    x = GetScreenWidth() / 2;
+    y = GetScreenHeight() / 2;
+    speedX = 5;
+    speedY = 5;
 }
 
 void Ball::Update() {
     x += speedX;
     y += speedY;
 
-    if (y + radius >= GetScreenHeight() || y - radius <= 0) {
+    // Üst ve alt duvarlara çarpma - Y hýzýný ters çevir
+    if (y + radius >= GetScreenHeight() || y - radius <= 0)
         speedY *= -1;
-    }
 
+    // Sað duvara çarpma - CPU kazanýr
     if (x + radius >= GetScreenWidth()) {
-        cpuScore++;
-        ResetBall();
+        GameState::cpuScore++;
+        Reset();
     }
 
+    // Sol duvara çarpma - Player kazanýr  
     if (x - radius <= 0) {
-        playerScore++;
-        ResetBall();
+        GameState::playerScore++;
+        Reset();
     }
 }
 
-void Ball::ResetBall() {
+void Ball::Draw() const {
+    DrawCircle(static_cast<int>(x), static_cast<int>(y), radius, YELLOW);
+}
+
+void Ball::Reset() {
     x = GetScreenWidth() / 2;
     y = GetScreenHeight() / 2;
 
-    int speedChoices[] = { 1, -1 };
-    speedX *= speedChoices[GetRandomValue(0, 1)];
-    speedY *= speedChoices[GetRandomValue(0, 1)];
+    // Random yön seçimi - daha temiz kod
+    int xDirection = (GetRandomValue(0, 1) == 0) ? -1 : 1;
+    int yDirection = (GetRandomValue(0, 1) == 0) ? -1 : 1;
+
+    speedX = 5 * xDirection;
+    speedY = 5 * yDirection;
+}
+
+// Paddle collision için - sadece X hýzýný ters çevir
+void Ball::ReverseSpeedX() {
+    speedX *= -1;
+}
+
+int Ball::GetRadius() const {
+    return radius;
 }

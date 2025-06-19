@@ -1,19 +1,32 @@
 #pragma once
-#include <raylib.h>
+#include "Entity.h"
 
-class Paddle {
+// Forward declaration - Ball sýnýfýný önceden tanýmlýyoruz
+class Ball;
+
+class Paddle : public Entity {
 protected:
-    void LimitMovement();
-public:
-    float x, y;
     float width, height;
     int speed;
+    void LimitMovement();
+public:
+    Paddle(float x, float y);
+    void Draw() const override;
+    virtual void Update() override = 0;
+    float GetWidth() const;
+    float GetHeight() const;
+};
 
-    void Draw();
-    virtual void Update();
+class PlayerPaddle : public Paddle {
+public:
+    PlayerPaddle(float x, float y);
+    void Update() override;
 };
 
 class CpuPaddle : public Paddle {
+private:
+    const Ball* ball;  // Artýk Ball forward declaration sayesinde tanýnýyor
 public:
-    void Update(int ball_y);
+    CpuPaddle(float x, float y, const Ball* ballRef);
+    void Update() override;
 };
