@@ -32,6 +32,80 @@ public:
 
 I know it seems basic, but this was a game-changer. Instead of having giant classes that do everything, now each class only implements what it actually needs. My Ball class needs both drawing and updating, but my ScoreBoard only needs drawing. Clean and simple.
 
+# Polymorphism in Action 🔄
+
+One of the coolest improvements I made was implementing true polymorphism in the main game loop. Instead of calling each object's methods individually, I now use polymorphic collections:
+
+## Before (Repetitive Code):
+```cpp
+void Game::Run() {
+    // Manual updates - not polymorphic
+    ball.Update();
+    player.Update();
+    cpu.Update();
+    
+    // Manual drawing - not polymorphic
+    ball.Draw();
+    player.Draw();
+    cpu.Draw();
+    scoreboard.Draw();
+}
+```
+
+## After (Polymorphic Magic):
+```cpp
+class Game {
+private:
+    std::vector<Entity*> entities;
+    std::vector<IDrawable*> drawables;
+    
+public:
+    Game() {
+        // Initialize polymorphic collections
+        entities = {&ball, &player, &cpu};
+        drawables = {&ball, &player, &cpu, &scoreboard};
+    }
+    
+    void Run() {
+        // Polymorphic updates - each object calls its own Update()
+        for (auto* entity : entities) {
+            entity->Update(); // Ball::Update(), PlayerPaddle::Update(), CpuPaddle::Update()
+        }
+        
+        // Polymorphic drawing - each object calls its own Draw()  
+        for (auto* drawable : drawables) {
+            drawable->Draw(); // Different Draw() methods called automatically
+        }
+    }
+};
+```
+
+## Why This is Awesome:
+
+**🎯 Single Responsibility**: The game loop doesn't need to know HOW each object updates or draws itself
+- `Ball::Update()` handles physics and collision detection
+- `PlayerPaddle::Update()` handles keyboard input
+- `CpuPaddle::Update()` handles AI behavior
+- Each calls the RIGHT method automatically!
+
+**🔧 Easy to Extend**: Want to add a new game object?
+```cpp
+class PowerUp : public Entity {
+    void Update() override { /* power-up logic */ }
+    void Draw() const override { /* power-up rendering */ }
+};
+
+// Just add it to the collection - no code changes needed!
+entities.push_back(&powerUp);
+drawables.push_back(&powerUp);
+```
+
+**🧹 Cleaner Code**: The game loop went from knowing about every specific object to being completely generic. It just says "update everything that can be updated" and "draw everything that can be drawn."
+
+**⚡ Runtime Flexibility**: The same loop can handle completely different object types. A `Ball` bounces around, a `PlayerPaddle` responds to input, a `CpuPaddle` follows the ball - but the game loop treats them all the same way.
+
+This is polymorphism working exactly as intended: **same interface, different behavior**. The game loop calls `Update()` on everything, but each object does something completely different when that method is called.
+
 ### The Entity Base Class
 
 Then I created this Entity class that basically became the parent of all my game objects:
