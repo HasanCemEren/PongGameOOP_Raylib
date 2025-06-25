@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 
-const float Game::POWER_UP_SPAWN_INTERVAL = 8.0f; // 8 saniyede bir power-up spawn
+const float Game::POWER_UP_SPAWN_INTERVAL = 8.0f; // Power-up spawn every 8 seconds
 
 Game::Game()
     : player(GetScreenWidth() - 35, GetScreenHeight() / 2 - 60),
@@ -11,7 +11,7 @@ Game::Game()
     currentState(GameStateEnum::MAIN_MENU),
     powerUpSpawnTimer(0.0f) {
 
-    // Random seed
+    //Giving Defaults
     srand(time(NULL));
 }
 
@@ -26,14 +26,6 @@ void Game::Run() {
 
         case GameStateEnum::PLAYING:
             HandleGameplay();
-            break;
-
-        case GameStateEnum::PAUSED:
-            // TODO: Pause menьsь
-            break;
-
-        case GameStateEnum::GAME_OVER:
-            // TODO: Game Over ekranэ
             break;
         }
 
@@ -54,35 +46,27 @@ void Game::HandleMainMenu() {
             ResetGame();
             break;
 
-        case 1: // Settings
-            // TODO: Settings menьsь
-            break;
-
-        case 2: // Quit
-            // Oyunu kapat
-            break;
         }
     }
 }
 
 void Game::HandleGameplay() {
-    // ESC tuюu ile ana menьye dцn
     if (IsKeyPressed(KEY_ESCAPE)) {
         currentState = GameStateEnum::MAIN_MENU;
         return;
     }
 
     // Update
-    ball.Update();
-    player.Update();
-    cpu.Update();
+    for (auto* entity : entities) {
+        entity->Update();
+    }
     UpdatePowerUps();
 
     // Collision Detection
     if (CheckCollisionCircleRec({ ball.GetX(), ball.GetY() }, ball.GetRadius(),
         { player.GetX(), player.GetY(), player.GetWidth(), player.GetHeight() })) {
 
-        // Kalkan kontrolь
+        // Shield control
         if (player.HasShield()) {
             player.UseShield();
         }
@@ -92,36 +76,34 @@ void Game::HandleGameplay() {
     if (CheckCollisionCircleRec({ ball.GetX(), ball.GetY() }, ball.GetRadius(),
         { cpu.GetX(), cpu.GetY(), cpu.GetWidth(), cpu.GetHeight() })) {
 
-        // Kalkan kontrolь
+        // Shield control
         if (cpu.HasShield()) {
             cpu.UseShield();
         }
         ball.ReverseSpeedX();
     }
 
-    // Power-up зarpэюma kontrolь
     CheckPowerUpCollisions();
 
     // Draw
     ClearBackground(DARKGREEN);
     DrawLine(GetScreenWidth() / 2, 0, GetScreenWidth() / 2, GetScreenHeight(), WHITE);
 
-    // Power-up'larэ зiz
+    // Draw Power-Ups
     for (const auto& powerUp : powerUps) {
         if (powerUp.IsActive()) {
             powerUp.Draw();
         }
     }
 
-    ball.Draw();
-    player.Draw();
-    cpu.Draw();
-    scoreboard.Draw();
+    for (auto* entity : entities) {
+        entity->Draw();
+    }
+    scoreboard.Draw(); //We cannot involve this because it
 
-    // Power-up bilgilerini зiz
     DrawPowerUpInfo();
 
-    // Kontrol bilgileri
+    // Extra Drawings
     DrawText("ESC - Main Menu", 10, 10, 20, LIGHTGRAY);
     DrawText("Fashion Power-Ups Active!", GetScreenWidth() / 2 - 100, 10, 20, YELLOW);
 }
@@ -134,7 +116,7 @@ void Game::UpdatePowerUps() {
         powerUpSpawnTimer = 0.0f;
     }
 
-    // Power-up'larэ gьncelle ve sьresi dolmuю olanlarэ temizle
+    //Update power-ups and clear expired ones
     for (auto it = powerUps.begin(); it != powerUps.end();) {
         if (it->IsActive()) {
             it->Update();
@@ -147,13 +129,13 @@ void Game::UpdatePowerUps() {
 }
 
 void Game::SpawnRandomPowerUp() {
-    // Ekranэn ortasэnda bir alanda spawn et
+    //Spawn in an area in the middle of the screen
     float minX = GetScreenWidth() * 0.3f;
     float maxX = GetScreenWidth() * 0.7f;
     float minY = GetScreenHeight() * 0.2f;
     float maxY = GetScreenHeight() * 0.8f;
 
-    float x = minX + (rand() % (int)(maxX - minX));
+    float x = minX + (rand() % (int)(maxX - minX)); //Generate random value with help of ai
     float y = minY + (rand() % (int)(maxY - minY));
 
     PowerUpType type = static_cast<PowerUpType>(rand() % 6);
@@ -171,7 +153,7 @@ void Game::CheckPowerUpCollisions() {
 
     for (auto& powerUp : powerUps) {
         if (powerUp.IsActive() && CheckCollisionRecs(ballRect, powerUp.GetBounds())) {
-            // En yakэn oyuncuya power-up ver
+            // Give power-up to the nearest player
             float distToPlayer = abs(ball.GetX() - (player.GetX() + player.GetWidth() / 2));
             float distToCpu = abs(ball.GetX() - (cpu.GetX() + cpu.GetWidth() / 2));
 
@@ -187,12 +169,12 @@ void Game::CheckPowerUpCollisions() {
 void Game::ApplyPowerUpToPlayer(PowerUpType type, bool isPlayer1) {
     switch (type) {
     case PowerUpType::SHOE:
-        // Top hэzlanэr (global efekt)
+        // The ball increase the velocity(global effect)
         ball.ApplySpeedBoost();
         break;
 
     case PowerUpType::JACKET:
-        // Paddle uzar
+        // Paddle length increases
         if (isPlayer1) {
             player.ApplyPowerUp(type);
         }
@@ -202,7 +184,7 @@ void Game::ApplyPowerUpToPlayer(PowerUpType type, bool isPlayer1) {
         break;
 
     case PowerUpType::DRESS:
-        // Paddle hэzlanэr
+        // Paddle boost its speed
         if (isPlayer1) {
             player.ApplyPowerUp(type);
         }
@@ -212,12 +194,12 @@ void Game::ApplyPowerUpToPlayer(PowerUpType type, bool isPlayer1) {
         break;
 
     case PowerUpType::NECKLACE:
-        // Top bьyьr (global efekt)
+        // The ball be bigger
         ball.ApplySizeBoost();
         break;
 
     case PowerUpType::HAT:
-        // Kalkan
+        // Shield
         if (isPlayer1) {
             player.ApplyPowerUp(type);
         }
@@ -227,7 +209,7 @@ void Game::ApplyPowerUpToPlayer(PowerUpType type, bool isPlayer1) {
         break;
 
     case PowerUpType::BAG:
-        // Double points - ScoreBoard sэnэfэnda implement edilmeli
+        // Double points
         if (isPlayer1) {
             player.ApplyPowerUp(type);
         }
@@ -256,7 +238,7 @@ void Game::DrawPowerUpInfo() const {
         DrawText(powerUpDescriptions[i], 10, legendY + 20 + i * 15, 12, LIGHTGRAY);
     }
 
-    // Aktif power-up sayэsэ
+    // Active power-up counter
     int activePowerUps = 0;
     for (const auto& powerUp : powerUps) {
         if (powerUp.IsActive()) activePowerUps++;
@@ -270,5 +252,4 @@ void Game::ResetGame() {
     ball.Reset();
     powerUps.clear();
     powerUpSpawnTimer = 0.0f;
-    // Skorlarэ sэfэrlamak isterseniz GameState namespace'ini gьncelleyin
 }

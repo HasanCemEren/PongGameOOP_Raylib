@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Entity.h"
-#include <raylib.h>  // Color tipi iзin gerekli
+#include <raylib.h>  
 
 class Ball : public Entity {
 private:
@@ -19,9 +19,9 @@ public:
     void ReverseSpeedX();
     int GetRadius() const;
 
-    // Power-up fonksiyonlarэ
+    // Power-up functions
     void ApplySpeedBoost();
     void ApplySizeBoost();
     void UpdatePowerUp();
-    Color GetBallColor() const;  // Dьzeltildi - doрru syntax
+    Color GetBallColor() const; 
 };

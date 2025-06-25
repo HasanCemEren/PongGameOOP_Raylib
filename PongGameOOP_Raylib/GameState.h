@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-// Oyun durumlarэ
 enum class GameStateEnum {
     MAIN_MENU,
     PLAYING,
@@ -8,7 +7,7 @@ enum class GameStateEnum {
     GAME_OVER
 };
 
-// Score namespace'i eski GameState namespace'i yerine
+//I used extern to avoid linker problems. If we use playerScore more than pne time this will make some linker problem to us.
 namespace GameState {
     extern int playerScore;
     extern int cpuScore;

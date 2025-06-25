@@ -22,16 +22,16 @@ private:
     MainMenu mainMenu;
     GameStateEnum currentState;
 
-    // Power-up sistemi
+    // Power-up system
     std::vector<PowerUp> powerUps;
     float powerUpSpawnTimer;
-    static const float POWER_UP_SPAWN_INTERVAL;
+    static const float POWER_UP_SPAWN_INTERVAL; //Its static becasue everyone has the same value
 
     void HandleMainMenu();
     void HandleGameplay();
     void ResetGame();
 
-    // Power-up fonksiyonlarý
+    // Power-up functions
     void UpdatePowerUps();
     void SpawnRandomPowerUp();
     void CheckPowerUpCollisions();
@@ -41,4 +41,5 @@ private:
 public:
     Game();
     void Run();
+    std::vector<Entity*> entities = { &ball, &player, &cpu }; //Polym. structure
 };

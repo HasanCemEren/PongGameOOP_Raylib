@@ -20,20 +20,20 @@ void Ball::Update() {
     x += speedX;
     y += speedY;
 
-    // Power-up sьresini gьncelle
+    // Update Power-up timing
     UpdatePowerUp();
 
-    // Ьst ve alt duvarlara зarpma
+    // Wall collision
     if (y + radius >= GetScreenHeight() || y - radius <= 0)
         speedY *= -1;
 
-    // Saр duvara зarpma - CPU kazanэr
+    // CPU Win condition
     if (x + radius >= GetScreenWidth()) {
         GameState::cpuScore++;
         Reset();
     }
 
-    // Sol duvara зarpma - Player kazanэr  
+    // Player Win condition 
     if (x - radius <= 0) {
         GameState::playerScore++;
         Reset();
@@ -44,7 +44,7 @@ void Ball::Draw() const {
     Color ballColor = GetBallColor();
     DrawCircle(static_cast<int>(x), static_cast<int>(y), radius, ballColor);
 
-    // Power-up aktifken glow efekti
+    // Glow effect while Power-up active
     if (hasPowerUp) {
         DrawCircleLines(x, y, radius + 5, Fade(ballColor, 0.5f));
     }
@@ -92,12 +92,12 @@ void Ball::UpdatePowerUp() {
         if (powerUpTimer <= 0) {
             hasPowerUp = false;
             radius = originalRadius;
-            // Hэz normale dцnmez, momentum korunur
+            // It's not go back to original speed to protect the momentum.
         }
     }
 }
 
 Color Ball::GetBallColor() const {
-    if (radius > originalRadius) return YELLOW; // Bьyьk top
+    if (radius > originalRadius) return YELLOW;
     return WHITE;
 }

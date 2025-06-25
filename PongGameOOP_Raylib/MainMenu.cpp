@@ -7,7 +7,7 @@ MainMenu::MainMenu() {
 }
 
 void MainMenu::Update() {
-    // Klavye navigasyonu
+    // Keyboard navigation
     if (IsKeyPressed(KEY_UP)) {
         selectedOption--;
         if (selectedOption < 0) selectedOption = totalOptions - 1;
@@ -23,22 +23,22 @@ void MainMenu::Draw() const {
     int screenWidth = GetScreenWidth();
     int screenHeight = GetScreenHeight();
 
-    // Arka plan
+    // Background
     ClearBackground(DARKGREEN);
 
-    // Baюlэk
-    const char* title = "OOP PONG";
+    // Title H1
+    const char* title = "Style Smash";
     int titleSize = 80;
     int titleWidth = MeasureText(title, titleSize);
     DrawText(title, (screenWidth - titleWidth) / 2, screenHeight / 4, titleSize, YELLOW);
 
-    // Alt baюlэk
+    // H2
     const char* subtitle = "Made with Raylib & C++";
     int subtitleSize = 20;
     int subtitleWidth = MeasureText(subtitle, subtitleSize);
     DrawText(subtitle, (screenWidth - subtitleWidth) / 2, screenHeight / 4 + 100, subtitleSize, LIGHTGRAY);
 
-    // Menь seзenekleri
+    // Menu Options
     const char* options[] = {
         "Start Game",
         "Settings",
@@ -50,12 +50,12 @@ void MainMenu::Draw() const {
     int spacing = 70;
 
     for (int i = 0; i < totalOptions; i++) {
-        Color color = (i == selectedOption) ? YELLOW : WHITE;
+        Color color = (i == selectedOption) ? YELLOW : WHITE; //Quick if statement.
         int optionWidth = MeasureText(options[i], optionSize);
         int x = (screenWidth - optionWidth) / 2;
         int y = startY + i * spacing;
 
-        // Seзili olanэn yanэna ok koy
+        // Arrow for selected one
         if (i == selectedOption) {
             DrawText(">", x - 50, y, optionSize, YELLOW);
             DrawText("<", x + optionWidth + 20, y, optionSize, YELLOW);
@@ -64,7 +64,7 @@ void MainMenu::Draw() const {
         DrawText(options[i], x, y, optionSize, color);
     }
 
-    // Kontrol bilgisi
+    // Gameplay infos
     const char* controls = "Use UP/DOWN arrows to navigate, ENTER to select";
     int controlSize = 16;
     int controlWidth = MeasureText(controls, controlSize);

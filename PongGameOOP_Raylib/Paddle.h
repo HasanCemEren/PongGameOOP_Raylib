@@ -9,14 +9,15 @@ protected:
     float width, height;
     int speed;
 
-    // Power-up özellikleri
+    // Power-up fields
     float originalHeight;
     float originalSpeed;
     float powerUpTimer;
     PowerUpType activePowerUp;
     bool hasPowerUp;
     bool hasShield;
-
+    
+    //Pong game controller
     void LimitMovement();
 
 public:
@@ -26,7 +27,7 @@ public:
     float GetWidth() const;
     float GetHeight() const;
 
-    // Power-up fonksiyonlarý
+    // Power-up functions
     void ApplyPowerUp(PowerUpType type);
     void UpdatePowerUp();
     bool HasShield() const;

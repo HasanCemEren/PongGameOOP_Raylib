@@ -14,9 +14,9 @@ PowerUp::PowerUp(float xPos, float yPos, PowerUpType powerType) {
 void PowerUp::Update() {
     if (!active) return;
 
-    rotation += GetFrameTime() * 90.0f; // 90 derece/saniye dönüş
+    rotation += GetFrameTime() * 90.0f; // 90 degree/sec turn
 
-    // 15 saniye sonra kaybolur
+    // Disappear after 15 sec.
     if (GetTime() - spawnTime > 15.0f) {
         active = false;
     }
@@ -25,29 +25,29 @@ void PowerUp::Update() {
 void PowerUp::Draw() const {
     if (!active) return;
 
-    // Glow efekti
+    // Glow effect
     DrawCircleLines(static_cast<int>(x), static_cast<int>(y),
         static_cast<int>(size + sin(GetTime() * 5) * 3), WHITE);
-
+    //AI supported Power-Up Drawings.
     switch (type) {
-    case PowerUpType::SHOE: // 👠 Ayakkabı
+    case PowerUpType::SHOE: 
         DrawEllipse(static_cast<int>(x), static_cast<int>(y), 20, 8, RED);
         DrawRectangle(static_cast<int>(x + 15), static_cast<int>(y - 3), 8, 6, BROWN);
         break;
 
-    case PowerUpType::JACKET: // 🧥 Ceket
+    case PowerUpType::JACKET: 
         DrawRectangle(static_cast<int>(x - 15), static_cast<int>(y - 10), 30, 25, BLUE);
-        DrawRectangle(static_cast<int>(x - 20), static_cast<int>(y - 5), 10, 20, BLUE); // Sol kol
-        DrawRectangle(static_cast<int>(x + 15), static_cast<int>(y - 5), 10, 20, BLUE); // Sağ kol
+        DrawRectangle(static_cast<int>(x - 20), static_cast<int>(y - 5), 10, 20, BLUE); 
+        DrawRectangle(static_cast<int>(x + 15), static_cast<int>(y - 5), 10, 20, BLUE); 
         break;
 
-    case PowerUpType::DRESS: // 👗 Elbise
+    case PowerUpType::DRESS: 
         DrawCircle(static_cast<int>(x), static_cast<int>(y - 10), 8, PINK);
         DrawRectangle(static_cast<int>(x - 12), static_cast<int>(y), 24, 20, PINK);
         break;
 
-    case PowerUpType::NECKLACE: // 💎 Kolye
-        // DrawPoly yerine alternatif çizim
+    case PowerUpType::NECKLACE: 
+      
     {
         Vector2 center = { x, y };
         float radius = 8.0f;
@@ -61,7 +61,7 @@ void PowerUp::Draw() const {
             points[i].y = center.y + radius * sin(currentAngle);
         }
 
-        // Elmas şekli çiz
+        
         for (int i = 0; i < sides; i++) {
             int next = (i + 1) % sides;
             DrawLine(static_cast<int>(points[i].x), static_cast<int>(points[i].y),
@@ -72,12 +72,12 @@ void PowerUp::Draw() const {
     }
     break;
 
-    case PowerUpType::HAT: // 🎩 Şapka
+    case PowerUpType::HAT:
         DrawRectangle(static_cast<int>(x - 15), static_cast<int>(y), 30, 8, BLACK);
         DrawRectangle(static_cast<int>(x - 10), static_cast<int>(y - 15), 20, 15, BLACK);
         break;
 
-    case PowerUpType::BAG: // 👜 Çanta
+    case PowerUpType::BAG: 
         DrawRectangle(static_cast<int>(x - 12), static_cast<int>(y - 8), 24, 16, PURPLE);
         DrawRectangle(static_cast<int>(x - 8), static_cast<int>(y - 12), 16, 4, PURPLE);
         break;

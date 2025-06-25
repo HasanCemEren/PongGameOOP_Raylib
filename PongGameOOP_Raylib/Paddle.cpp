@@ -10,7 +10,7 @@ Paddle::Paddle(float xPos, float yPos) {
     height = 120;
     speed = 6;
 
-    // Power-up baюlangэз deрerleri
+    // Power-up initial values
     originalHeight = height;
     originalSpeed = static_cast<float>(speed);
     powerUpTimer = 0.0f;
@@ -21,20 +21,20 @@ Paddle::Paddle(float xPos, float yPos) {
 void Paddle::Draw() const {
     Color paddleColor = GetPaddleColor();
 
-    // Power-up aktifken glow efekti
+    // Glow effect while Power-Up is active
     if (hasPowerUp) {
         DrawRectangleRounded({ x - 2, y - 2, width + 4, height + 4 }, 0.8f, 0, Fade(paddleColor, 0.3f));
     }
 
     DrawRectangleRounded({ x, y, width, height }, 0.8f, 0, paddleColor);
 
-    // Kalkan efekti
+    // Shield effect
     if (hasShield) {
         DrawCircleLines(static_cast<int>(x + width / 2), static_cast<int>(y + height / 2), 60, GOLD);
         DrawText("SHIELD", static_cast<int>(x - 10), static_cast<int>(y - 20), 12, GOLD);
     }
 
-    // Power-up timer gцstergesi
+    // Power-up timer square
     if (hasPowerUp && powerUpTimer > 0) {
         float timerWidth = (powerUpTimer / 10.0f) * width;
         DrawRectangle(static_cast<int>(x), static_cast<int>(y - 8),
@@ -45,14 +45,14 @@ void Paddle::Draw() const {
 void Paddle::ApplyPowerUp(PowerUpType type) {
     activePowerUp = type;
     hasPowerUp = true;
-    powerUpTimer = 10.0f; // 10 saniye sьre
+    powerUpTimer = 10.0f; // 10 sec.
 
     switch (type) {
     case PowerUpType::JACKET:
-        height = originalHeight + 40; // Paddle uzar
+        height = originalHeight + 40; // Add height to paddle
         break;
     case PowerUpType::DRESS:
-        speed = static_cast<int>(originalSpeed * 1.5f); // Hэzlanэr
+        speed = static_cast<int>(originalSpeed * 1.5f); // It gets velocity boost
         break;
     case PowerUpType::HAT:
         hasShield = true;
@@ -67,7 +67,7 @@ void Paddle::UpdatePowerUp() {
         powerUpTimer -= GetFrameTime();
 
         if (powerUpTimer <= 0) {
-            // Power-up sьresi doldu, eski haline dцndьr
+            // Power-up has expired, go back to initial values.
             hasPowerUp = false;
             hasShield = false;
             height = originalHeight;

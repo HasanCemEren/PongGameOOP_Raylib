@@ -1,17 +1,2 @@
-﻿  Game.cpp
-C:\Users\cemer\source\repos\PongGameOOP_Raylib\PongGameOOP_Raylib\Game.cpp(9,59): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\cemer\source\repos\PongGameOOP_Raylib\PongGameOOP_Raylib\Game.cpp(9,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\cemer\source\repos\PongGameOOP_Raylib\PongGameOOP_Raylib\Game.cpp(10,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\cemer\source\repos\PongGameOOP_Raylib\PongGameOOP_Raylib\Game.cpp(15,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\cemer\source\repos\PongGameOOP_Raylib\PongGameOOP_Raylib\Game.cpp(82,77): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\cemer\source\repos\PongGameOOP_Raylib\PongGameOOP_Raylib\Game.cpp(92,77): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  GameState.cpp
-  main.cpp
-  Paddle.cpp
-  PowerUp.cpp
-C:\Users\cemer\source\repos\PongGameOOP_Raylib\PongGameOOP_Raylib\PowerUp.cpp(9,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\cemer\source\repos\PongGameOOP_Raylib\PongGameOOP_Raylib\PowerUp.cpp(30,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  ScoreBoard.cpp
-  Generating Code...
-  LINK : C:\Users\cemer\source\repos\PongGameOOP_Raylib\x64\Debug\PongGameOOP_Raylib.exe not found or not built by the last incremental link; performing full link
+﻿  Paddle.cpp
   PongGameOOP_Raylib.vcxproj -> C:\Users\cemer\source\repos\PongGameOOP_Raylib\x64\Debug\PongGameOOP_Raylib.exe

@@ -3,12 +3,12 @@
 #include <raylib.h>
 
 enum class PowerUpType {
-    SHOE,     // Ayakkabэ - Top hэzlanэr
-    JACKET,   // Ceket - Paddle uzar  
-    DRESS,    // Elbise - Paddle hэzlanэr
-    NECKLACE, // Kolye - Top bьyьr
-    HAT,      // Юapka - Kalkan
-    BAG       // Зanta - Double points
+    SHOE,     // Ball speeds up
+    JACKET,   // Paddle get height
+    DRESS,    // Paddle speeds up
+    NECKLACE, // Ball grows
+    HAT,      // Shield
+    BAG       // Double point
 };
 
 class PowerUp : public Entity {

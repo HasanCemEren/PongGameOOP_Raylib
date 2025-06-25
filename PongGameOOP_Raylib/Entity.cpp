@@ -1,0 +1,1 @@
+//It is a blueprint for our objects
