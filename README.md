@@ -63,7 +63,6 @@ public:
     Game() {
         // Initialize polymorphic collections
         entities = {&ball, &player, &cpu};
-        drawables = {&ball, &player, &cpu, &scoreboard};
     }
     
     void Run() {
@@ -74,7 +73,7 @@ public:
         
         // Polymorphic drawing - each object calls its own Draw()  
         for (auto* drawable : drawables) {
-            drawable->Draw(); // Different Draw() methods called automatically
+           entity->Draw(); // Different Draw() methods called automatically
         }
     }
 };
