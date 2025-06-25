@@ -72,7 +72,7 @@ public:
         }
         
         // Polymorphic drawing - each object calls its own Draw()  
-        for (auto* drawable : drawables) {
+         for (auto* entity : entities) {
            entity->Draw(); // Different Draw() methods called automatically
         }
     }
