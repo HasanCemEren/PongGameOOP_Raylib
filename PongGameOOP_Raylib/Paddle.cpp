@@ -121,8 +121,14 @@ CpuPaddle::CpuPaddle(float xPos, float yPos, const Ball* ballRef)
     : Paddle(xPos, yPos), ball(ballRef) {}
 
 void CpuPaddle::Update() {
-    if (y + height / 2 > ball->GetY()) y -= speed;
-    if (y + height / 2 < ball->GetY()) y += speed;
+    float paddleCenter = y + height / 2;
+    float ballY = ball->GetY();
+
+    // Use slower speed for CPU otherwise it's impossible to win game
+    float cpuSpeed = 4.2f;  // Slower than player's 6
+
+    if (paddleCenter > ballY) y -= cpuSpeed;
+    if (paddleCenter < ballY) y += cpuSpeed;
     LimitMovement();
     UpdatePowerUp();
 }
